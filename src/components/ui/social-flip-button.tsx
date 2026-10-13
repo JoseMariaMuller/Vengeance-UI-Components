@@ -162,10 +162,10 @@ export default function SocialFlipButton({
                 }}
             >
                 {/* Border Lines Container - Clipped */}
-                <div className="absolute -inset-[1px] overflow-hidden rounded-2xl pointer-events-none">
+                <div className="absolute -inset-px overflow-hidden rounded-2xl pointer-events-none">
                     {/* Animated Top Border Line */}
                     <motion.div
-                        className="absolute top-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-black/50 to-transparent dark:via-white/50"
+                        className="absolute top-0 left-0 h-px w-full bg-linear-to-r from-transparent via-black/50 to-transparent dark:via-white/50"
                         animate={{ x: ["-100%", "100%"] }}
                         transition={{
                             duration: 2.5,
@@ -176,7 +176,7 @@ export default function SocialFlipButton({
 
                     {/* Animated Bottom Border Line */}
                     <motion.div
-                        className="absolute bottom-0 left-0 h-[1px] w-full bg-gradient-to-r from-transparent via-black/50 to-transparent dark:via-white/50"
+                        className="absolute bottom-0 left-0 h-px w-full bg-linear-to-r from-transparent via-black/50 to-transparent dark:via-white/50"
                         animate={{ x: ["100%", "-100%"] }}
                         transition={{
                             duration: 2.5,

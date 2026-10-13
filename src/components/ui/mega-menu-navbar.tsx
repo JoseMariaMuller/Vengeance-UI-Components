@@ -477,7 +477,7 @@ export function MegaMenuNavbar({
                     onToggle={() => toggleDesktopMenu("features")}
                     onOpen={() => setOpenMenu("features")}
                   />
-                  <DesktopDropdown id="features-mega-menu" open={openMenu === "features"} className="w-[640px]">
+                  <DesktopDropdown id="features-mega-menu" open={openMenu === "features"} className="w-160">
                     <div className="rounded-xl border border-zinc-200 bg-white p-4 shadow-xl dark:border-zinc-800 dark:bg-zinc-950">
                       <FeatureGrid items={features} />
                       <div className="mt-4 flex items-center justify-between border-t border-zinc-100 px-2 pt-4 dark:border-zinc-800/70">
@@ -504,7 +504,7 @@ export function MegaMenuNavbar({
                     onToggle={() => toggleDesktopMenu("use-cases")}
                     onOpen={() => setOpenMenu("use-cases")}
                   />
-                  <DesktopDropdown id="use-cases-mega-menu" open={openMenu === "use-cases"} className="w-[390px]">
+                  <DesktopDropdown id="use-cases-mega-menu" open={openMenu === "use-cases"} className="w-97.5">
                     <div className="rounded-xl border border-zinc-200 bg-white p-3 shadow-xl dark:border-zinc-800 dark:bg-zinc-950">
                       <div className="flex flex-col gap-1">
                         {useCases.map((item) => {
@@ -569,7 +569,7 @@ export function MegaMenuNavbar({
                   <DesktopDropdown
                     id="resources-mega-menu"
                     open={openMenu === "resources"}
-                    className="left-1/2 w-[620px] -translate-x-1/2"
+                    className="left-1/2 w-155 -translate-x-1/2"
                   >
                     <div className="grid grid-cols-3 gap-6 rounded-xl border border-zinc-200 bg-white p-5 shadow-xl dark:border-zinc-800 dark:bg-zinc-950">
                       <div className="flex flex-col justify-between rounded-xl border border-zinc-100 bg-zinc-50 p-5 dark:border-zinc-800/70 dark:bg-zinc-900">
@@ -628,20 +628,130 @@ export function MegaMenuNavbar({
               <NavAction href={ctaHref}>{ctaLabel}</NavAction>
             </div>
 
-            <button
-              type="button"
-              aria-label="Open navigation menu"
-              aria-expanded={mobileOpen}
-              onClick={() => setMobileOpen(true)}
-              className="flex size-10 items-center justify-center rounded-md text-zinc-600 transition-colors hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 dark:text-zinc-400 dark:hover:bg-zinc-800 lg:hidden"
-            >
-              <Menu className="size-6" />
-            </button>
+           
+<button
+  type="button"
+  aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+  aria-expanded={mobileOpen}
+  aria-controls="mobile-navigation"
+  onClick={() => setMobileOpen((open) => !open)}
+  className="flex size-10 items-center justify-center rounded-md text-zinc-600 transition-colors hover:bg-zinc-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400 dark:text-zinc-400 dark:hover:bg-zinc-800 lg:hidden"
+>
+  {mobileOpen ? (
+    <X className="size-6" />
+  ) : (
+    <Menu className="size-6" />
+  )}
+</button>
+
           </div>
         </div>
       </div>
 
-      {/* Overlay y menú móvil... (resto del código) */}
+      
+{mobileOpen && (
+  <>
+    {/* Fondo oscuro */}
+    <button
+      type="button"
+      aria-label="Close navigation menu"
+      onClick={closeMobile}
+      className="fixed inset-x-0 bottom-0 top-16 z-40 bg-black/30 backdrop-blur-[2px] lg:hidden"
+    />
+
+    {/* Panel del menú */}
+    <div
+      id="mobile-navigation"
+      className="absolute left-0 right-0 top-full z-50 max-h-[calc(100dvh-4rem)] overflow-y-auto border-b border-zinc-200 bg-white px-5 pb-6 shadow-xl dark:border-zinc-800 dark:bg-zinc-950 lg:hidden"
+    >
+      <nav aria-label="Mobile navigation">
+        <div className="divide-y divide-zinc-200 dark:divide-zinc-800">
+          <MobileAccordion
+            title="Features"
+            value="features"
+            openSection={mobileSection}
+            onToggle={toggleMobileSection}
+          >
+            {features.map((item) => (
+              <MobileMenuItem
+                key={item.title}
+                item={item}
+                onNavigate={closeMobile}
+              />
+            ))}
+          </MobileAccordion>
+
+          <MobileAccordion
+            title="Use Cases"
+            value="use-cases"
+            openSection={mobileSection}
+            onToggle={toggleMobileSection}
+          >
+            {useCases.map((item) => (
+              <MobileMenuItem
+                key={item.title}
+                item={item}
+                onNavigate={closeMobile}
+              />
+            ))}
+          </MobileAccordion>
+
+          <MobileAccordion
+            title="Resources"
+            value="resources"
+            openSection={mobileSection}
+            onToggle={toggleMobileSection}
+          >
+            {resourceGroups.map((group) => (
+              <div key={group.title} className="py-2">
+                <p className="px-2 pb-1 text-xs font-semibold uppercase tracking-wider text-zinc-400">
+                  {group.title}
+                </p>
+
+                {group.links.map((item) => (
+                  <MobileMenuItem
+                    key={item.title}
+                    item={item}
+                    onNavigate={closeMobile}
+                  />
+                ))}
+              </div>
+            ))}
+          </MobileAccordion>
+
+          <a
+            href={pricingHref}
+            onClick={closeMobile}
+            className="flex items-center justify-between py-4 text-sm font-medium text-zinc-950 dark:text-zinc-100"
+          >
+            Pricing
+          </a>
+        </div>
+
+        {/* Acciones */}
+        <div className="mt-5 flex flex-col gap-3">
+          <NavAction
+            href={loginHref}
+            variant="outline"
+            className="w-full"
+            onClick={closeMobile}
+          >
+            Log in
+          </NavAction>
+
+          <NavAction
+            href={ctaHref}
+            className="w-full"
+            onClick={closeMobile}
+          >
+            {ctaLabel}
+          </NavAction>
+        </div>
+      </nav>
+    </div>
+  </>
+)}
+
     </header>
   );
 }
